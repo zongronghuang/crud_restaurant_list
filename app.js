@@ -4,6 +4,10 @@ const express = require('express')
 const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+
+mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 使用 main.handlebars 作為基本模版
 app.engine('handlebars', exphbs({
@@ -13,8 +17,24 @@ app.engine('handlebars', exphbs({
 // 指定 handlebars 作為渲染引擎
 app.set('view engine', 'handlebars')
 
-// 指定靜態資料夾
-app.use(express.static('public'))
+
+
+const db = mongoose.connection
+
+db.on('error', () => {
+  console.log('mongodb error')
+})
+
+db.once('open', () => {
+  console.log('mongodb connected!')
+})
+
+const Restaurant = require('./models/restaurant.js')
+
+
+// 指定靜態資料夾 + 使用 body parser
+app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
+
 
 // 首頁顯示所有餐廳
 app.get('/', (req, res) => {
