@@ -38,11 +38,17 @@ app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
 
 // 首頁顯示所有餐廳
 app.get('/', (req, res) => {
-  res.send('hello world!')
+  Restaurant.find()
+    .lean()
+    .exec((err, restaurants) => {
+      if (err) return console.error(err)
+      return res.render('index', { restaurants: restaurants })
+    })
 })
+
 // 列出全部 餐廳
 app.get('/restaurants', (req, res) => {
-  res.send('列出所有 restaurants')
+  Re
 })
 // 新增一筆 restaurants 頁面
 app.get('/restaurants/new', (req, res) => {
