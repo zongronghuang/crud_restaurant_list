@@ -38,6 +38,11 @@ app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
 
 // 首頁顯示所有餐廳
 app.get('/', (req, res) => {
+  return res.redirect('/restaurants')
+})
+
+// 列出全部 餐廳
+app.get('/restaurants', (req, res) => {
   Restaurant.find()
     .lean()
     .exec((err, restaurants) => {
@@ -46,13 +51,9 @@ app.get('/', (req, res) => {
     })
 })
 
-// 列出全部 餐廳
-app.get('/restaurants', (req, res) => {
-  Re
-})
 // 新增一筆 restaurants 頁面
 app.get('/restaurants/new', (req, res) => {
-  res.send('新增 restaurant 頁面')
+  return res.render('new')
 })
 // 顯示一筆 restaurant 的詳細內容
 app.get('/restaurants/:id', (req, res) => {
@@ -60,7 +61,7 @@ app.get('/restaurants/:id', (req, res) => {
 })
 // 新增一筆  restaurant
 app.post('/restaurant', (req, res) => {
-  res.send('建立 restaurant')
+
 })
 // 修改 restaurant 頁面
 app.get('/restaurants/:id/edit', (req, res) => {

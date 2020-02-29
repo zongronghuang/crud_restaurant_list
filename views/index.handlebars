@@ -24,7 +24,7 @@
         <!-- 餐廳卡片 -->
         {{#each restaurants}}
 
-          <a href="/restaurants/{{this.id}}" class="text-secondary">
+          <a href="/restaurants/{{this._id}}" class="text-secondary">
             <div class="card mb-3">
               <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
               <div class="card-body p-3">
@@ -38,18 +38,17 @@
                   {{this.rating}}
                   <i class="fas fa-star fa-xs"></i>
                 </span>
+              </div>
 
+              <div class="card-footer">
+                <a href="/restaurants/{{this._id}}/edit">Edit</a>
+                <a href="/restaurants/{{this._id}}">Detail</a>
+                <form action="/restaurants/{{this._id}}/delete" method="POST">
+                  <button type="submit">Delete</button>
+                </form>
               </div>
             </div>
           </a>
-
-          <div>
-            <a href="/restaurants/{{{this._id}}}/edit">Edit</a>
-            <a href="/restaurants/{{{this._id}}}">Detail</a>
-            <form action="" method="POST">
-              <button type="submit">Delete</button>
-            </form>
-          </div>
 
         {{/each}}
 
