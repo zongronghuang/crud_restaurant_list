@@ -103,6 +103,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 app.post('/restaurants/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
+
     restaurant.name = req.body.name
     restaurant.name_en = req.body.name_en
     restaurant.category = req.body.category
@@ -124,7 +125,13 @@ app.post('/restaurants/:id/edit', (req, res) => {
 
 // 刪除 restaurant
 app.post('/restaurants/:id/delete', (req, res) => {
-  res.send('刪除 restaurant')
+  Restaurant.findById(req.params.id, (err, restaurant) => {
+    if (err) return console.error(err)
+    restaurant.remove(err => {
+      if (err) return console.error(err)
+      return res.redirect('/')
+    })
+  })
 })
 
 
