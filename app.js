@@ -55,14 +55,25 @@ app.get('/restaurants', (req, res) => {
 app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
+
+
 // 顯示一筆 restaurant 的詳細內容
 app.get('/restaurants/:id', (req, res) => {
-  res.send('顯示 restaurant 的詳細內容')
+  Restaurant.findById(req.params.id)
+    .lean()
+    .exec((err, restaurant) => {
+      if (err) return console.error(err)
+      return res.render('show', { restaurant: restaurant })
+    })
 })
+
+
 // 新增一筆  restaurant
 app.post('/restaurant', (req, res) => {
 
 })
+
+
 // 修改 restaurant 頁面
 app.get('/restaurants/:id/edit', (req, res) => {
   res.send('修改 restaurant 頁面')
