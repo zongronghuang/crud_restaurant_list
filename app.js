@@ -69,8 +69,23 @@ app.get('/restaurants/:id', (req, res) => {
 
 
 // 新增一筆  restaurant
-app.post('/restaurant', (req, res) => {
+app.post('/restaurants', (req, res) => {
+  const restaurant = new Restaurant({
+    name: req.body.name,
+    name_en: req.body.name_en,
+    category: req.body.category,
+    image: req.body.image,
+    location: req.body.location,
+    phone: req.body.phone,
+    google_map: req.body.google_map,
+    rating: req.body.rating,
+    description: req.body.description,
+  })
 
+  restaurant.save(err => {
+    if (err) console.error(err)
+    return res.redirect('/')
+  })
 })
 
 
