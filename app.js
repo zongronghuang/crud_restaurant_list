@@ -122,7 +122,6 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 
-
 // 刪除 restaurant
 app.post('/restaurants/:id/delete', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
@@ -135,25 +134,18 @@ app.post('/restaurants/:id/delete', (req, res) => {
 })
 
 
+// 設定搜尋路由
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword
 
-// // 設定搜尋路由
-// app.get('/search', (req, res) => {
-//   const keyword = req.query.keyword
-//   const restaurantMatches = restaurantList.results.filter(restaurant => restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.name_en.toLowerCase().includes(keyword.toLowerCase()))
+  Restaurant.find({ name: keyword })
+    .lean()
+    .exec((err, restaurants) => {
+      if (err) return console.error(err)
+      return res.render('index', { restaurants: restaurants, keyword: keyword })
+    })
+})
 
-//   res.render('index', {
-//     restaurants: restaurantMatches,
-//     keyword: keyword
-//   })
-// })
-
-// // 設定餐廳詳細資料路由
-// app.get('/restaurants/:restaurant_id', (req, res) => {
-//   const id = req.params.restaurant_id
-//   const restaurantById = restaurantList.results.find(restaurant => id === restaurant.id.toString())
-
-//   res.render('show', { restaurant: restaurantById })
-// })
 
 // 設定 server 監聽器
 app.listen(port, (req, res) => {

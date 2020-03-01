@@ -1,4 +1,4 @@
-<div class="card-body w-50 mx-auto">
+<div class="card-body w-50 mx-auto bg-light">
 
   <h1 class="text-center mb-5">編輯餐廳基本資料</h1>
 
@@ -47,11 +47,12 @@
     <div class="form-group">
       <label for="description">餐廳描述</label>
       <br>
-      <textarea class="w-100" id="description" name="description" rows="4">{{{restaurant.description}}}</textarea>
+      <textarea class="w-100 rounded" id="description" name="description"
+        rows="4">{{{restaurant.description}}}</textarea>
     </div>
 
-    <div class="float-right">
-      <button type="reset" class="btn btn-danger">清空</button>
+    <div class="d-flex justify-content-end">
+      <button type="reset" class="btn btn-danger mr-2">清空</button>
       <button type="submit" class="btn btn-primary">確定</button>
     </div>
   </form>
