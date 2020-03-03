@@ -6,6 +6,7 @@ const port = 3000
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const methodOverride = require('method-override')
 
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -35,6 +36,7 @@ const Restaurant = require('./models/restaurant.js')
 // 指定靜態資料夾 + 使用 body parser
 app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
 
+app.use(methodOverride('_method'))
 
 // 首頁顯示所有餐廳
 app.get('/', (req, res) => {
@@ -100,7 +102,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
 })
 
 // 修改 restauarnt
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
 
@@ -123,7 +125,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 
 
 // 刪除 restaurant
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
     restaurant.remove(err => {

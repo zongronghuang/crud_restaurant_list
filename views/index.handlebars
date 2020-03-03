@@ -43,7 +43,7 @@
               <div class="card-footer d-inline-flex w-100 justify-content-between align-items-center">
                 <a href="/restaurants/{{this._id}}/edit">編輯</a>
                 <a href="/restaurants/{{this._id}}">詳細資料</a>
-                <form action="/restaurants/{{this._id}}/delete" method="POST">
+                <form action="/restaurants/{{this._id}}?_method=DELETE" method="POST">
                   <button type="submit" class="btn btn-danger">刪除</button>
                 </form>
               </div>
