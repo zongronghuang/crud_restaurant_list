@@ -53,12 +53,12 @@ npm install mongoose
 
 7. [Optional] Run the JavaScript file in the project folder to initialize the project. This act seeds the first batch of demo restaurants in MongoDB. You may skip this step if you do not wish to show the demo restaurants.
 ```
-node restaurantSeeder.js
+node ./models/seeds/restaurantSeeder.js
 ```
 
 7. Launch the local server:
 ```
-node app.js
+npm run dev
 ```
 
 8. Open a web browser and enter the URL:
