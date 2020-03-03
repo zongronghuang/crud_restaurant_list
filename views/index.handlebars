@@ -1,6 +1,6 @@
 <div class="container search-bar">
-  <div class="search-bar-outer">
-    <div class="search-bar-inner">
+  <div class="search-bar-outer d-flex justify-content-between align-items-end">
+    <div class="search-bar-inner w-75">
       <form action="/search">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
@@ -12,8 +12,23 @@
         </div>
       </form>
     </div>
+
+    <!-- 排序選單 -->
+    <div>
+      <label for="sort"></label>
+      <select class="form-control" id="sort" name="sort">
+        <option id="name">依名稱排序</option>
+        <option id="category">依類別排序</option>
+        <option id="location">依地區排序</option>
+      </select>
+    </div>
+
+
   </div>
 </div>
+
+
+
 
 <!-- 餐廳顯示區域 -->
 <div class="container mt-5">
