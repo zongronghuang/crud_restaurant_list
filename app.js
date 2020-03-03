@@ -19,7 +19,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars')
 
 
-
+// 使用 db 
 const db = mongoose.connection
 
 db.on('error', () => {
@@ -30,8 +30,8 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+//引入 Restaurant Schema
 const Restaurant = require('./models/restaurant.js')
-
 
 // 指定靜態資料夾 + 使用 body parser
 app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
@@ -45,11 +45,14 @@ app.use('/restaurants', require('./routes/restaurant.js'))
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
 
-  Restaurant.find({ name: keyword })
+  Restaurant.find()
     .lean()
     .exec((err, restaurants) => {
       if (err) return console.error(err)
-      return res.render('index', { restaurants: restaurants, keyword: keyword })
+
+      const matches = restaurants.filter(restaurant => restaurant.name.toLowerCase().includes(keyword.toLowerCase()))
+
+      return res.render('index', { restaurants: matches, keyword: keyword })
     })
 })
 
