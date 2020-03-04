@@ -4,7 +4,10 @@ const Restaurant = require('../models/restaurant.js')
 
 // 列出全部 餐廳
 router.get('/', (req, res) => {
+  const sortType = req.query.sort
+
   Restaurant.find()
+    .sort({ [`${sortType}`]: 'asc' })
     .lean()
     .exec((err, restaurants) => {
       if (err) return console.error(err)

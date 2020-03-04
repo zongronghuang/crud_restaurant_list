@@ -27,7 +27,7 @@ To run this project, take the steps using the console:
 
 1. Download this project from GitHub:
 ```
-git clone https://github.com/zongronghuang/restaurant_list.git restaurant_list
+git clone https://github.com/zongronghuang/crud_restaurant_list.git restaurant_list
 ``` 
 2. Go to the **restaurant_list** folder.
 

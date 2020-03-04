@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 
+// 用 Mongoose 與本機 MongoDB 連線
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
 
 // 使用 main.handlebars 作為基本模版
@@ -18,14 +19,12 @@ app.engine('handlebars', exphbs({
 // 指定 handlebars 作為渲染引擎
 app.set('view engine', 'handlebars')
 
-
 // 使用 db 
 const db = mongoose.connection
 
 db.on('error', () => {
   console.log('mongodb error')
 })
-
 db.once('open', () => {
   console.log('mongodb connected!')
 })
@@ -33,11 +32,10 @@ db.once('open', () => {
 //引入 Restaurant Schema
 const Restaurant = require('./models/restaurant.js')
 
-// 指定靜態資料夾 + 使用 body parser
-app.use(express.static('public'), bodyParser.urlencoded({ extended: true }))
-
+// 使用靜態資料夾 + body-parser + method-override + routing js
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-
 app.use('/', require('./routes/home.js'))
 app.use('/restaurants', require('./routes/restaurant.js'))
 
@@ -52,10 +50,15 @@ app.get('/search', (req, res) => {
 
       const matches = restaurants.filter(restaurant => restaurant.name.toLowerCase().includes(keyword.toLowerCase()))
 
-      return res.render('index', { restaurants: matches, keyword: keyword })
+      if (matches.length > 0) {
+        return res.render('index', { restaurants: matches, keyword: keyword })
+      } else {
+        return res.render('index', { restaurants: matches, keyword: keyword, failure: 'on' })
+      }
+
+
     })
 })
-
 
 // 設定 server 監聽器
 app.listen(port, (req, res) => {

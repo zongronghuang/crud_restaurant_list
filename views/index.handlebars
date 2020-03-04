@@ -14,20 +14,30 @@
     </div>
 
     <!-- 排序選單 -->
-    <div>
-      <label for="sort"></label>
-      <select class="form-control" id="sort" name="sort">
-        <option id="name">依名稱排序</option>
-        <option id="category">依類別排序</option>
-        <option id="location">依地區排序</option>
-      </select>
+    <div class="ml-3">
+      <form action="/restaurants" class="d-flex">
+        <label for="sort"></label>
+        <select class="form-control" id="sort" name="sort">
+          <option value="none">-----排 序-----</option>
+          <option value="name">依名稱排序</option>
+          <option value="category">依類別排序</option>
+          <option value="location">依地區排序</option>
+        </select>
+        <button type="submit" title="按一下就排序!"><i class="fas fa-sort-alpha-down"></i></button>
+      </form>
     </div>
 
 
   </div>
 </div>
 
-
+{{#if failure}}
+  <h1 class="text-center mt-5">
+    <i class="far fa-surprise"></i>
+    <br>
+    找不到符合的餐廳
+  </h1>
+{{/if}}
 
 
 <!-- 餐廳顯示區域 -->
