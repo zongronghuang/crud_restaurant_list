@@ -6,7 +6,7 @@ Mini Restaurant Finder (CRUD) web app project for Alpha Camp Semester 3
 
 ## Getting Started
 ---
-This mini web project is a web app for managing a personal collection of favorite restaurants. You can add, delete, and search restaurants, or display restaurant information.[<sup>1</sup>](#1)
+This mini web project is a web app for managing a personal collection of favorite restaurants. You can add, delete, sort, and search restaurants, or display restaurant information.[<sup>1</sup>](#1)
 
 This project is dependent on the following packages:
 
@@ -14,6 +14,7 @@ This project is dependent on the following packages:
 + **[Express](https://expressjs.com/)**: For setting up routing rules for directing users to specific webpages
 + **[Handlebars](https://www.npmjs.com/package/express-handlebars)**: For creating reusable webpage templates
 + **[body-parser](https://www.npmjs.com/package/body-parser)**: For analyzing data contained in request packets
++ **[method-override]](https://www.npmjs.com/package/method-override)**: For enabling more HTTP methods.
 + **[mongoose](https://www.npmjs.com/package/mongoose)**: For manipulating data stored in MongoDB.
 + **[nodemon](https://www.npmjs.com/package/nodemon)**: For auto-launching the local server when its server scripts are updated.
 
@@ -73,10 +74,6 @@ localhost:3000
 ### Overview
 1. The homepage lists all recorded restaurants and provides the restaurants' names, categories, and user ratings.
 
-### Search by keyword (Beta):
-1. Enter a keyword (English or Chinese) in the top search field. The keyword must be the exact match of a restaurant's name.
-2. Press Enter or click the magnifying glass to find matched restaurants.   
-
 ### View details:
 1. Click on a desired restaurant to show its defailed information (e.g., telephone, address, and description).
 
@@ -93,6 +90,13 @@ localhost:3000
 ### Delete a restaurant profile:
 1. On the homepage, click on (刪除) on a desired restaurant card.
 
+### Search restaurants by name:
+1. Enter a keyword (English or Chinese) in the top search field. The search is case-insensitive and allows fuzzy search. 
+2. Press Enter or click the magnifying glass to find matched restaurants.
+
+### Sort restaurants:
+1. Go to the top-right dropdown menu and select a way to sort the restaurants. You can sort them by name, category, or location.
+2. Click on the sort icon to reorder the restaurants.
 
 ---
 <a class="anchor" id="1">1</a>: The restaurant profiles and the project as well as the screenshot are only for educational purpose, with no intention of copyright infringement.
