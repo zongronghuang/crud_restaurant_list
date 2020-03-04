@@ -2,26 +2,35 @@ const express = require('express')
 const router = express.Router()
 const Restaurant = require('../models/restaurant.js')
 
-// 列出全部 餐廳
+// 列出全部餐廳 + 依照所選方式排序
 router.get('/', (req, res) => {
   const sortType = req.query.sort
 
-  Restaurant.find()
-    .sort({ [`${sortType}`]: 'asc' })
-    .lean()
-    .exec((err, restaurants) => {
-      if (err) return console.error(err)
-      return res.render('index', { restaurants: restaurants })
-    })
+  if (sortType === "none" || !sortType) {
+    Restaurant.find()
+      .lean()
+      .exec((err, restaurants) => {
+        if (err) return console.error(err)
+        return res.render('index', { restaurants: restaurants, noSort: true })
+      })
+  } else {
+    Restaurant.find()
+      .sort({ [`${sortType}`]: 'asc' })
+      .lean()
+      .exec((err, restaurants) => {
+        if (err) return console.error(err)
+        return res.render('index', { restaurants: restaurants, [`${sortType}`]: true })
+      })
+  }
 })
 
-// 新增一筆 restaurants 頁面
+// 取回 新增餐廳 頁面
 router.get('/new', (req, res) => {
   return res.render('new')
 })
 
 
-// 顯示一筆 restaurant 的詳細內容
+// 取回 餐廳詳細內容頁面
 router.get('/:id', (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
@@ -32,7 +41,7 @@ router.get('/:id', (req, res) => {
 })
 
 
-// 新增一筆  restaurant
+// 新增 餐廳資料
 router.post('/', (req, res) => {
   const restaurant = new Restaurant({
     name: req.body.name,
@@ -53,7 +62,7 @@ router.post('/', (req, res) => {
 })
 
 
-// 修改 restaurant 頁面
+// 取回 編輯餐廳資料頁面
 router.get('/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
@@ -63,7 +72,7 @@ router.get('/:id/edit', (req, res) => {
     })
 })
 
-// 修改 restauarnt
+// 修改 餐廳資料
 router.put('/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
@@ -86,7 +95,7 @@ router.put('/:id/edit', (req, res) => {
 })
 
 
-// 刪除 restaurant
+// 刪除 餐廳資料
 router.delete('/:id', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) return console.error(err)
@@ -96,7 +105,5 @@ router.delete('/:id', (req, res) => {
     })
   })
 })
-
-
 
 module.exports = router

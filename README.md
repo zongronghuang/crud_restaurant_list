@@ -14,7 +14,7 @@ This project is dependent on the following packages:
 + **[Express](https://expressjs.com/)**: For setting up routing rules for directing users to specific webpages
 + **[Handlebars](https://www.npmjs.com/package/express-handlebars)**: For creating reusable webpage templates
 + **[body-parser](https://www.npmjs.com/package/body-parser)**: For analyzing data contained in request packets
-+ **[method-override]](https://www.npmjs.com/package/method-override)**: For enabling more HTTP methods.
++ **[method-override](https://www.npmjs.com/package/method-override)**: For enabling PUT and DELETE HTTP methods.
 + **[mongoose](https://www.npmjs.com/package/mongoose)**: For manipulating data stored in MongoDB.
 + **[nodemon](https://www.npmjs.com/package/nodemon)**: For auto-launching the local server when its server scripts are updated.
 
@@ -47,27 +47,32 @@ npm install express-handlebars
 npm install body-parser
 ```
 
-6. Install Mongoose
+6. Install method-override
+```
+npm install method-override
+```
+
+7. Install Mongoose
 ```
 npm install mongoose
 ```
 
-7. [Optional] Run the JavaScript file in the project folder to initialize the project. This act seeds the first batch of demo restaurants in MongoDB. You may skip this step if you do not wish to show the demo restaurants.
+8. [Optional] Run the JavaScript file in the project folder to initialize the project. This act seeds the first batch of demo restaurants in MongoDB. You may skip this step if you do not wish to show the demo restaurants.
 ```
 node ./models/seeds/restaurantSeeder.js
 ```
 
-7. Launch the local server:
+9. Launch the local server:
 ```
 npm run dev
 ```
 
-8. Open a web browser and enter the URL:
+9. Open a web browser and enter the URL:
 ```
 localhost:3000
 ```
 
-9. Now you can use the web app to view and search restaurants.
+10. Now you can use the web app to view and search restaurants.
 
 # Features
 ---
