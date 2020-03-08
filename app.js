@@ -38,6 +38,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use('/', require('./routes/home.js'))
 app.use('/restaurants', require('./routes/restaurant.js'))
+app.use('/users', require('./routes/user.js'))
+
+
 
 // 設定搜尋路由
 app.get('/search', (req, res) => {
