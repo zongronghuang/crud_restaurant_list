@@ -7,6 +7,8 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const session = require('express-session')
+const passport = require('passport')
 
 // 用 Mongoose 與本機 MongoDB 連線
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -31,6 +33,20 @@ db.once('open', () => {
 
 //引入 Restaurant Schema
 const Restaurant = require('./models/restaurant.js')
+
+app.use(session({
+  secret: 'your secret key',
+  resave: false,
+  saveUninitialized: true,
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+require('./config/passport.js')(passport)
+app.use((req, res, next) => {
+  res.locals.user = req.user
+  next()
+})
 
 // 使用靜態資料夾 + body-parser + method-override + routing js
 app.use(express.static('public'))
