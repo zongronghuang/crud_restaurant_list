@@ -11,7 +11,7 @@ const session = require('express-session')
 const passport = require('passport')
 
 // 用 Mongoose 與本機 MongoDB 連線
-mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
 // 使用 main.handlebars 作為基本模版
 app.engine('handlebars', exphbs({
@@ -45,6 +45,7 @@ app.use(passport.session())
 require('./config/passport.js')(passport)
 app.use((req, res, next) => {
   res.locals.user = req.user
+  res.locals.isAuthenticated = req.isAuthenticated()
   next()
 })
 

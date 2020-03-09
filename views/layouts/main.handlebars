@@ -22,10 +22,22 @@
           我的餐廳清單
         </a>
 
-        <div class="float-right">
-          <form action="/restaurants/new" method="GET">
-            <button class="btn btn-info" type="submit">加入餐廳</button>
-          </form>
+        <div class="float-right d-flex">
+
+          {{#if isAuthenticated}}
+            <form action="/restaurants/new" method="GET">
+              <button class="btn btn-info" type="submit">加入餐廳</button>
+            </form>
+
+            <form class="ml-3" action="/users/logout" method="GET">
+              <button class="btn btn-danger" type="submit">登出</button>
+            </form>
+          {{else}}
+            <form action="/users/login" method="GET">
+              <button class="btn btn-info" type="submit">登入</button>
+            </form>
+          {{/if}}
+
         </div>
       </div>
     </nav>
