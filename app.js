@@ -9,6 +9,8 @@ const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
+const flash = require('connect-flash')
+
 
 // 用 Mongoose 與本機 MongoDB 連線
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -34,30 +36,46 @@ db.once('open', () => {
 //引入 Restaurant Schema
 const Restaurant = require('./models/restaurant.js')
 
+// 非 production mode 時使用 dotenv 檔案
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+// 建立 session
 app.use(session({
   secret: 'your secret key',
   resave: false,
   saveUninitialized: true,
 }))
 
+// 啟動 + 使用 passport
 app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport.js')(passport)
+
+// 導入 connect-flash
+app.use(flash())
+
+// 存在 res.locals 的常用資料
 app.use((req, res, next) => {
   res.locals.user = req.user
   res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.warning_msg = req.flash('warning_msg')
   next()
 })
 
-// 使用靜態資料夾 + body-parser + method-override + routing js
+// 導入套件
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+
+
+// 不同分頁的路由
 app.use('/', require('./routes/home.js'))
 app.use('/restaurants', require('./routes/restaurant.js'))
 app.use('/users', require('./routes/user.js'))
-
-
+app.use('/auth', require('./routes/auths.js'))
 
 // 設定搜尋路由
 app.get('/search', (req, res) => {
@@ -75,8 +93,6 @@ app.get('/search', (req, res) => {
       } else {
         return res.render('index', { restaurants: matches, keyword: keyword, failure: 'on' })
       }
-
-
     })
 })
 
