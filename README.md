@@ -8,21 +8,10 @@ Mini Restaurant Finder (CRUD) web app project for Alpha Camp Semester 3
 ---
 This mini web project is a web app for managing a personal collection of favorite restaurants. You can add, delete, sort, and search restaurants, or display restaurant information.[<sup>1</sup>](#1)
 
-This project is dependent on the following packages:
-
-+ **[Node.js](https://nodejs.org/en/)**: For creating a local server and a script designing server actions
-+ **[Express](https://expressjs.com/)**: For setting up routing rules for directing users to specific webpages
-+ **[Handlebars](https://www.npmjs.com/package/express-handlebars)**: For creating reusable webpage templates
-+ **[body-parser](https://www.npmjs.com/package/body-parser)**: For analyzing data contained in request packets
-+ **[method-override](https://www.npmjs.com/package/method-override)**: For enabling PUT and DELETE HTTP methods.
-+ **[mongoose](https://www.npmjs.com/package/mongoose)**: For manipulating data stored in MongoDB.
-+ **[nodemon](https://www.npmjs.com/package/nodemon)**: For auto-launching the local server when its server scripts are updated.
-
-
 # Prerequisites
 1. You have to install and run both MongoDB and Mongoose on your local computer.
 
-# Installing
+# Installing Project and Dependent Packages
 ---
 To run this project, take the steps using the console:
 
@@ -57,8 +46,44 @@ npm install method-override
 npm install mongoose
 ```
 
-8. [Optional] Run the JavaScript file in the project folder to initialize the project. This act seeds the first batch of demo restaurants in MongoDB. You may skip this step if you do not wish to show the demo restaurants.
+8. Install express-session
 ```
+npm install express-session
+```
+
+9. Install bcryptjs
+```
+npm install bcryptjs
+```
+
+10. Install connect-flash
+```
+npm install connect-flash
+```
+
+11. Install dotenv
+```
+npm install dotenv
+```
+
+12. Install passport
+```
+npm install mongoose
+```
+
+13. Install passport-local
+```
+npm install passport-local
+```
+
+14. Install passport-facebook
+```
+npm install passport-facebook
+```
+
+8. **[Optional]** Launch MongoDB on your local computer. Then, initialize this project with default users and restaurants.
+```
+node ./models/seeds/userSeeder.js
 node ./models/seeds/restaurantSeeder.js
 ```
 
@@ -76,11 +101,17 @@ localhost:3000
 
 # Features
 ---
-### Overview
-1. The homepage lists all recorded restaurants and provides the restaurants' names, categories, and user ratings.
+### Login
+You may log in to this web app using a personal FaceBook account, a locally registered account, or a default user account:
+```
+user1@example.com/12345678
+user2@example.com/12345678
+```
+
+The following managements are user-specific.
 
 ### View details:
-1. Click on a desired restaurant to show its defailed information (e.g., telephone, address, and description).
+1. Click on a desired restaurant to show its detailed information (e.g., telephone, address, and description).
 
 ### Add a restaurant profile:
 1. Click the top-right button (加入餐廳) to go to the restaurant profile page.
