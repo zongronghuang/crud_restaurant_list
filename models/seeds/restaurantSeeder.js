@@ -4,6 +4,7 @@ const User = require('../user.js')
 const restaurantList = require('./restaurant.json')
 const results = restaurantList.results
 
+
 mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
 const db = mongoose.connection
@@ -33,7 +34,7 @@ db.once('open', () => {
           google_map: restaurants[j].google_map,
           rating: restaurants[j].rating,
           description: restaurants[j].description,
-          userId: users[1]._id
+          userId: users[0]._id
         })
       }
 
