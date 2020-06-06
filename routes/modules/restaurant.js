@@ -1,11 +1,47 @@
 const express = require('express')
 const router = express.Router()
-const Restaurant = require('../models/restaurant.js')
-const { authenticated } = require('../config/auth.js')
+
+const Restaurant = require('../../models/restaurant.js')
+
+// 取回 新增餐廳 頁面
+router.get('/new', (req, res) => {
+  return res.render('new')
+})
+
+// 新增 餐廳資料
+router.post('/', (req, res) => {
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+
+  return Restaurant.create({
+    name,
+    name_en,
+    category,
+    image,
+    location,
+    phone,
+    google_map,
+    rating,
+    description,
+    userId: req.user._id
+  })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+// 取回 餐廳詳細內容頁面
+router.get('/:id', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+
+  return Restaurant.findOne({ _id, userId })
+    .lean()
+    .then(restaurant => res.render('show', { restaurant }))
+    .catch(error => console.log(error))
+})
 
 
 // 列出全部餐廳 + 依照所選方式排序
-router.get('/', authenticated, (req, res) => {
+router.get('/', (req, res) => {
   const sortType = req.query.sort
 
   if (sortType === "none" || !sortType) {
@@ -26,43 +62,10 @@ router.get('/', authenticated, (req, res) => {
   }
 })
 
-// 取回 新增餐廳 頁面
-router.get('/new', authenticated, (req, res) => {
-  return res.render('new')
-})
 
 
-// 取回 餐廳詳細內容頁面
-router.get('/:id', authenticated, (req, res) => {
-  Restaurant.findOne({ _id: req.params.id, userId: req.user._id })
-    .lean()
-    .exec((err, restaurant) => {
-      if (err) return console.error(err)
-      return res.render('show', { restaurant: restaurant })
-    })
-})
 
 
-// 新增 餐廳資料
-router.post('/', authenticated, (req, res) => {
-  const restaurant = new Restaurant({
-    name: req.body.name,
-    name_en: req.body.name_en,
-    category: req.body.category,
-    image: req.body.image,
-    location: req.body.location,
-    phone: req.body.phone,
-    google_map: req.body.google_map,
-    rating: req.body.rating,
-    description: req.body.description,
-    userId: req.user._id
-  })
-
-  restaurant.save(err => {
-    if (err) console.error(err)
-    return res.redirect('/')
-  })
-})
 
 
 // 取回 編輯餐廳資料頁面

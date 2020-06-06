@@ -5,15 +5,13 @@ const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('passport')
 const flash = require('connect-flash')
 
 
-// 用 Mongoose 與本機 MongoDB 連線
-mongoose.connect('mongodb://localhost/restaurant', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+
 
 // 使用 main.handlebars 作為基本模版
 app.engine('handlebars', exphbs({
@@ -23,15 +21,7 @@ app.engine('handlebars', exphbs({
 // 指定 handlebars 作為渲染引擎
 app.set('view engine', 'handlebars')
 
-// 使用 db 
-const db = mongoose.connection
 
-db.on('error', () => {
-  console.log('mongodb error')
-})
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
 
 //引入 Restaurant Schema
 const Restaurant = require('./models/restaurant.js')
@@ -73,10 +63,10 @@ app.use(methodOverride('_method'))
 
 
 // 不同分頁的路由
-app.use('/', require('./routes/home.js'))
-app.use('/restaurants', require('./routes/restaurant.js'))
-app.use('/users', require('./routes/user.js'))
-app.use('/auth', require('./routes/auths.js'))
+app.use('/', require('./routes/modules/home.js'))
+app.use('/restaurants', require('./routes/modules/restaurant.js'))
+app.use('/users', require('./routes/modules/user.js'))
+app.use('/auth', require('./routes/modules/auths.js'))
 
 // 設定搜尋路由
 app.get('/search', (req, res) => {
