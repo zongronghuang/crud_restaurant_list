@@ -45,7 +45,7 @@ router.get('/:id/edit', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
 
-  Restaurant.findOne(_id, userId)
+  Restaurant.findOne({ _id, userId })
     .lean()
     .then(restaurant => res.render('edit', { restaurant }))
     .catch(error => console.log(error))
@@ -72,7 +72,7 @@ router.put('/:id/edit', (req, res) => {
 
       return restaurant.save()
     })
-    .then(() => res.redirect(`restaurants/${_id}`))
+    .then(() => res.redirect(`/restaurants/${_id}`))
     .catch(error => console.log(error))
 })
 

@@ -6,12 +6,13 @@ const { authenticated } = require('../../config/auth.js')
 
 // 首頁顯示所有餐廳
 router.get('/', authenticated, (req, res) => {
-  Restaurant.find({ userId: req.user._id })
+  const userId = req.user._id
+
+  Restaurant.find({ userId })
     .lean()
-    .exec((err, restaurants) => {
-      if (err) return console.error(err)
-      return res.render('index', { restaurants: restaurants })
-    })
+    .sort({ _id: 'asc' })
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.log(error))
 })
 
 module.exports = router

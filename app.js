@@ -2,16 +2,22 @@
 // 引入 express 和 handlebars 和資料 json
 const express = require('express')
 const app = express()
-const port = 3000
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const session = require('express-session')
-const passport = require('passport')
 const flash = require('connect-flash')
 
+// 非 production mode 時使用 dotenv 檔案
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
+const routes = require('./routes')
+const usePassport = require('./config/passport.js')
+require('./config/mongoose.js')
 
+const PORT = process.env.PORT
 
 // 使用 main.handlebars 作為基本模版
 app.engine('handlebars', exphbs({
@@ -21,27 +27,19 @@ app.engine('handlebars', exphbs({
 // 指定 handlebars 作為渲染引擎
 app.set('view engine', 'handlebars')
 
-
-
-//引入 Restaurant Schema
-const Restaurant = require('./models/restaurant.js')
-
-// 非 production mode 時使用 dotenv 檔案
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-
 // 建立 session
 app.use(session({
-  secret: 'your secret key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }))
 
-// 啟動 + 使用 passport
-app.use(passport.initialize())
-app.use(passport.session())
-require('./config/passport.js')(passport)
+app.use(express.static('public'))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
+
+usePassport(app)
+
 
 // 導入 connect-flash
 app.use(flash())
@@ -56,17 +54,9 @@ app.use((req, res, next) => {
   next()
 })
 
-// 導入套件
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(methodOverride('_method'))
-
 
 // 不同分頁的路由
-app.use('/', require('./routes/modules/home.js'))
-app.use('/restaurants', require('./routes/modules/restaurant.js'))
-app.use('/users', require('./routes/modules/user.js'))
-app.use('/auth', require('./routes/modules/auths.js'))
+app.use(routes)
 
 // 設定搜尋路由
 app.get('/search', (req, res) => {
@@ -88,7 +78,7 @@ app.get('/search', (req, res) => {
 })
 
 // 設定 server 監聽器
-app.listen(port, (req, res) => {
+app.listen(PORT, (req, res) => {
   console.log(`Server running. 
-    Server URL: http://localhost:${port}`)
+    Server URL: http://localhost:${PORT}`)
 })
