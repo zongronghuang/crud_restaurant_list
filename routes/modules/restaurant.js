@@ -40,6 +40,54 @@ router.get('/:id', (req, res) => {
 })
 
 
+// 取回 編輯餐廳資料頁面
+router.get('/:id/edit', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+
+  Restaurant.findOne(_id, userId)
+    .lean()
+    .then(restaurant => res.render('edit', { restaurant }))
+    .catch(error => console.log(error))
+})
+
+
+// 修改 餐廳資料
+router.put('/:id/edit', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+
+  return Restaurant.findOne({ _id, userId })
+    .then(restaurant => {
+      restaurant.name = name
+      restaurant.name_en = name_en
+      restaurant.category = category
+      restaurant.image = image
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.google_map = google_map
+      restaurant.rating = rating
+      restaurant.description = description
+
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`restaurants/${_id}`))
+    .catch(error => console.log(error))
+})
+
+// 刪除 餐廳資料
+router.delete('/:id', (req, res) => {
+  const userId = req.user._id
+  const _id = req.params.id
+
+  return Restaurant.findOne({ _id, userId })
+    .then(restaurant => restaurant.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+
 // 列出全部餐廳 + 依照所選方式排序
 router.get('/', (req, res) => {
   const sortType = req.query.sort
@@ -63,53 +111,5 @@ router.get('/', (req, res) => {
 })
 
 
-
-
-
-
-
-// 取回 編輯餐廳資料頁面
-router.get('/:id/edit', authenticated, (req, res) => {
-  Restaurant.findOne({ _id: req.params.id, userId: req.user._id })
-    .lean()
-    .exec((err, restaurant) => {
-      if (err) return console.error(err)
-      return res.render('edit', { restaurant: restaurant })
-    })
-})
-
-// 修改 餐廳資料
-router.put('/:id/edit', authenticated, (req, res) => {
-  Restaurant.findOne({ _id: req.params.id, userId: req.user._id }, (err, restaurant) => {
-    if (err) return console.error(err)
-
-    restaurant.name = req.body.name
-    restaurant.name_en = req.body.name_en
-    restaurant.category = req.body.category
-    restaurant.image = req.body.image
-    restaurant.location = req.body.location
-    restaurant.phone = req.body.phone
-    restaurant.google_map = req.body.google_map
-    restaurant.rating = req.body.rating
-    restaurant.description = req.body.description
-
-    restaurant.save(err => {
-      if (err) return console.error(err)
-      return res.redirect(`/restaurants/${req.params.id}`)
-    })
-  })
-})
-
-
-// 刪除 餐廳資料
-router.delete('/:id', authenticated, (req, res) => {
-  Restaurant.findOne({ _id: req.params.id, userId: req.user._id }, (err, restaurant) => {
-    if (err) return console.error(err)
-    restaurant.remove(err => {
-      if (err) return console.error(err)
-      return res.redirect('/')
-    })
-  })
-})
 
 module.exports = router
