@@ -54,28 +54,9 @@ app.use((req, res, next) => {
   next()
 })
 
-
 // 不同分頁的路由
 app.use(routes)
 
-// 設定搜尋路由
-app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
-
-  Restaurant.find()
-    .lean()
-    .exec((err, restaurants) => {
-      if (err) return console.error(err)
-
-      const matches = restaurants.filter(restaurant => restaurant.name.toLowerCase().includes(keyword.toLowerCase()))
-
-      if (matches.length > 0) {
-        return res.render('index', { restaurants: matches, keyword: keyword })
-      } else {
-        return res.render('index', { restaurants: matches, keyword: keyword, failure: 'on' })
-      }
-    })
-})
 
 // 設定 server 監聽器
 app.listen(PORT, (req, res) => {

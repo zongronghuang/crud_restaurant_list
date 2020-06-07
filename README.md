@@ -11,93 +11,40 @@ This mini web project is a web app for managing a personal collection of favorit
 # Prerequisites
 1. You have to install and run both MongoDB and Mongoose on your local computer.
 
-# Installing Project and Dependent Packages
+# Initialization
 ---
-To run this project, take the steps using the console:
+To run this project, download the project and install the dependent packages using the console:
 
 1. Download this project from GitHub:
 ```
-git clone https://github.com/zongronghuang/crud_restaurant_list.git restaurant_list
+    git clone https://github.com/zongronghuang/crud_restaurant_list.git crud_restaurant_list
 ``` 
 2. Go to the **restaurant_list** folder.
 
-3. Install Express using the console:
+3. Install the dependent packages:
 ```
-npm install express
-```
-
-4. Install Handlebars
-```
-npm install express-handlebars
+    npm install express express-handlebars body-parser method-override mongoose express-session bcryptjs connect-flash dotenv passport passport-local passport-facebook
 ```
 
-5. Install body-parser
+
+4. Launch MongoDB on your local computer. 
+
+5. Seed default users and restaurants.
 ```
-npm install body-parser
+    npm run seed
 ```
 
-6. Install method-override
+6. Launch the local server:
 ```
-npm install method-override
-```
-
-7. Install Mongoose
-```
-npm install mongoose
+    npm run dev
 ```
 
-8. Install express-session
+7. Open a web browser and enter the URL:
 ```
-npm install express-session
-```
-
-9. Install bcryptjs
-```
-npm install bcryptjs
+    localhost:3000
 ```
 
-10. Install connect-flash
-```
-npm install connect-flash
-```
-
-11. Install dotenv
-```
-npm install dotenv
-```
-
-12. Install passport
-```
-npm install mongoose
-```
-
-13. Install passport-local
-```
-npm install passport-local
-```
-
-14. Install passport-facebook
-```
-npm install passport-facebook
-```
-
-8. **[Optional]** Launch MongoDB on your local computer. Then, initialize this project with default users and restaurants.
-```
-node ./models/seeds/userSeeder.js
-node ./models/seeds/restaurantSeeder.js
-```
-
-9. Launch the local server:
-```
-npm run dev
-```
-
-9. Open a web browser and enter the URL:
-```
-localhost:3000
-```
-
-10. Now you can use the web app to view and search restaurants.
+8. Now you can use the web app to view and search restaurants.
 
 # Features
 ---

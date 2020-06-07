@@ -91,22 +91,24 @@ router.delete('/:id', (req, res) => {
 // 列出全部餐廳 + 依照所選方式排序
 router.get('/', (req, res) => {
   const sortType = req.query.sort
+  const userId = req.user._id
 
+  console.log('type', sortType, 'userid', userId)
   if (sortType === "none" || !sortType) {
-    Restaurant.find()
+    return Restaurant.find({ userId })
       .lean()
-      .exec((err, restaurants) => {
-        if (err) return console.error(err)
+      .then(restaurants => {
         return res.render('index', { restaurants: restaurants, noSort: true })
       })
+      .catch(error => console.log(error))
   } else {
-    Restaurant.find()
+    return Restaurant.find({ userId })
       .sort({ [`${sortType}`]: 'asc' })
       .lean()
-      .exec((err, restaurants) => {
-        if (err) return console.error(err)
+      .then(restaurants => {
         return res.render('index', { restaurants: restaurants, [`${sortType}`]: true })
       })
+      .catch(error => console.log(error))
   }
 })
 
