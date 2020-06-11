@@ -22,6 +22,7 @@ const user2 = {
   password: '12345678'
 }
 
+
 const createPromise = (user, restaurants) => {
   return new Promise((resolve, reject) => {
     console.log('run promise')
@@ -34,40 +35,24 @@ const createPromise = (user, restaurants) => {
         password: hash
       }))
       .then(user => {
-        const userId = user._id
+        const promises = []
 
-        restaurants.forEach(restaurant => Restaurant.create({
-          name: restaurant.name,
-          name_en: restaurant.name_en,
-          category: restaurant.category,
-          image: restaurant.image,
-          location: restaurant.location,
-          phone: restaurant.phone,
-          google_map: restaurant.google_map,
-          rating: restaurant.rating,
-          description: restaurant.description,
-          userId
-        }))
+        restaurants.forEach(restaurant => {
+          restaurant.userId = user._id
+          promises.push(Restaurant.create(restaurant))
+        })
+
+        return promises
       })
-
-    resolve(`Seeded all restaurants for ${user.name}`)
+      .catch(error => console.log(error))
   })
 }
 
-createPromise(user1, restaurants1)
-  .then(msg => console.log('Promise 1 success: ', msg))
-  .catch(error => console.log('Promise 1 error: ', error))
 
-createPromise(user2, restaurants2)
-  .then(msg => console.log('Promise  success: ', msg))
-  .catch(error => console.log('Promise 2 error: ', error))
-
-
-// 不知道為什麼無法執行
-// Promise.all([createPromise(user1, restaurants1), createPromise(user2, restaurants2)])
-//   .then(msg => {
-//     console.log(msg)
-//     console.log('Seeding done')
-//     process.exit()
-//   })
-//   .catch(error => console.error(error))
+Promise.all([createPromise(user1, restaurants1), createPromise(user2, restaurants2)])
+  .then(msg => {
+    console.log(msg)
+    console.log('Seeding done')
+    process.exit()
+  })
+  .catch(error => console.error(error))
