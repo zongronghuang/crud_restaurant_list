@@ -5,7 +5,6 @@ const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
 const User = require('../../models/user.js')
-const { authenticator } = require('../../middleware/auth.js')
 
 // 登入頁面
 router.get('/login', (req, res) => {
@@ -13,11 +12,13 @@ router.get('/login', (req, res) => {
 })
 
 // 登入檢查
-router.post('/login', authenticator,
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users/login'
-  }))
+router.post('/login', (req, res, next) => {
+  if (!req.body.email || !req.body.password) req.flash('warning_msg', '需先登入才可使用')
+  next()
+}, passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}))
 
 // 註冊頁面
 router.get('/register', (req, res) => {
