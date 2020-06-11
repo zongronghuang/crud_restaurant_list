@@ -17,7 +17,7 @@ const routes = require('./routes')
 const usePassport = require('./config/passport.js')
 require('./config/mongoose.js')
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 // 使用 main.handlebars 作為基本模版
 app.engine('handlebars', exphbs({
@@ -29,7 +29,7 @@ app.set('view engine', 'handlebars')
 
 // 建立 session
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || 'mySecretKey',
   resave: false,
   saveUninitialized: true,
 }))

@@ -7,8 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 const db = require('../../config/mongoose.js')
 const Restaurant = require('../restaurant.js')
 const User = require('../user.js')
-const results1 = require('./restaurant1.json').results
-const results2 = require('./restaurant2.json').results
+const restaurants1 = require('./restaurant.json').results.slice(0, 3)
+const restaurants2 = require('./restaurant.json').results.slice(3, 6)
 
 const SEED_USER1 = {
   name: 'user1',
@@ -21,6 +21,49 @@ const SEED_USER2 = {
   email: 'user2@example.com',
   password: '12345678'
 }
+
+// const seedData1 = () => {
+//   return new Promise ((resolve, reject) => {
+//     resolve(
+//       restaurants1.forEach(restaurant =>
+//         Restaurant.create({
+//           name: restaurant.name,
+//           name_en: restaurant.name_en,
+//           category: restaurant.category,
+//           image: restaurant.image,
+//           location: restaurant.location,
+//           phone: restaurant.phone,
+//           google_map: restaurant.google_map,
+//           rating: restaurant.rating,
+//           description: restaurant.description,
+//         })
+//       )
+//     )
+
+//   })
+// }
+
+// const seedData2 = () => {
+//   return new Promise((resolve, reject) => {
+//     resolve(
+//       restaurants2.forEach(restaurant =>
+//         Restaurant.create({
+//           name: restaurant.name,
+//           name_en: restaurant.name_en,
+//           category: restaurant.category,
+//           image: restaurant.image,
+//           location: restaurant.location,
+//           phone: restaurant.phone,
+//           google_map: restaurant.google_map,
+//           rating: restaurant.rating,
+//           description: restaurant.description,
+//         })
+//       )
+//     )
+//   })
+// }
+
+
 
 db.once('open', () => {
   bcrypt
@@ -38,7 +81,8 @@ db.once('open', () => {
         { length: 3 },
         (_, i) => {
           console.log('i', i)
-          Restaurant.create({
+
+          return Restaurant.create({
             name: results1[i].name,
             name_en: results1[i].name_en,
             category: results1[i].category,
@@ -50,6 +94,7 @@ db.once('open', () => {
             description: results1[i].description,
             userId
           })
+
         }
 
       ))
@@ -76,7 +121,7 @@ db.once('open', () => {
         (_, j) => {
           console.log('j', j)
 
-          Restaurant.create({
+          return Restaurant.create({
             name: results2[j].name,
             name_en: results2[j].name_en,
             category: results2[j].category,
@@ -96,6 +141,7 @@ db.once('open', () => {
     })
     .then(() => {
       console.log('User 2 done')
+      process.exit()
     })
     .catch(error => console.log(error))
 })

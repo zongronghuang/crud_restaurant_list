@@ -23,9 +23,8 @@ To run this project, download the project and install the dependent packages usi
 
 3. Install the dependent packages:
 ```
-    npm install express express-handlebars body-parser method-override mongoose express-session bcryptjs connect-flash dotenv passport passport-local passport-facebook
+    npm run install
 ```
-
 
 4. Launch MongoDB on your local computer. 
 

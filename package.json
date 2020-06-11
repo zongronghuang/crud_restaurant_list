@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "install": "npm install express express-handlebars body-parser method-override mongoose express-session bcryptjs connect-flash dotenv passport passport-local passport-facebook",
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
