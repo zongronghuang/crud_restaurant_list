@@ -23,7 +23,7 @@ To run this project, download the project and install the dependent packages usi
 
 3. Install the dependent packages:
 ```
-    npm run install
+    npm install
 ```
 
 4. Launch MongoDB on your local computer. 
