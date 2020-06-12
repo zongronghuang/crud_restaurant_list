@@ -22,10 +22,9 @@ const user2 = {
   password: '12345678'
 }
 
-
 const createPromise = (user, restaurants) => {
   return new Promise((resolve, reject) => {
-    console.log('run promise')
+    console.log('Seed user info')
 
     bcrypt.genSalt(10)
       .then(salt => bcrypt.hash(user.password, salt))
@@ -35,23 +34,32 @@ const createPromise = (user, restaurants) => {
         password: hash
       }))
       .then(user => {
-        const promises = []
+        console.log('create restaurant promises')
 
-        restaurants.forEach(restaurant => {
+        const promises = restaurants.map(restaurant => {
           restaurant.userId = user._id
-          promises.push(Restaurant.create(restaurant))
+          return Restaurant.create(restaurant)
         })
 
-        return promises
+        resolve(promises)
+        // resolve this parent promise with a promisified array of child promises
+        // P{ [P{}, P{}, P{}] }
       })
-      .catch(error => console.log(error))
+      .catch(error => reject(error))
   })
 }
 
-
 Promise.all([createPromise(user1, restaurants1), createPromise(user2, restaurants2)])
-  .then(msg => {
-    console.log(msg)
+  .then(promiseArrays => {
+    const array = [...promiseArrays[0], ...promiseArrays[1]]
+    // array = [P{}, P{}, P{}, ...]
+
+    return Promise.all(array)
+    // remove outer array
+    // reveal and run all P{} objects to seed 
+  })
+  .then(values => {
+    console.log('values', values)
     console.log('Seeding done')
     process.exit()
   })
