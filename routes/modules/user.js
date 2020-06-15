@@ -13,11 +13,13 @@ router.get('/login', (req, res) => {
 
 // 登入檢查
 router.post('/login', (req, res, next) => {
-  if (!req.body.email || !req.body.password) req.flash('warning_msg', '需先登入才可使用')
+  if (!req.body.email || !req.body.password) {
+    req.flash('warning_msg', '需先登入才可使用')
+  }
   next()
 }, passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/users/login'
+  failureRedirect: '/users/login',
 }))
 
 // 註冊頁面

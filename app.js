@@ -14,7 +14,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const routes = require('./routes')
-const usePassport = require('./config/passport.js')
 require('./config/mongoose.js')
 
 const PORT = process.env.PORT || 3000
@@ -38,8 +37,8 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+const usePassport = require('./config/passport.js')
 usePassport(app)
-
 
 // 導入 connect-flash
 app.use(flash())
