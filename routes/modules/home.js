@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const Restaurant = require('../../models/restaurant.js')
-const { authenticated } = require('../../config/auth.js')
+const { authenticator } = require('../../middleware/auth.js')
 
 
 // 首頁顯示所有餐廳
-router.get('/', authenticated, (req, res) => {
+router.get('/', authenticator, (req, res) => {
   const userId = req.user._id
 
   Restaurant.find({ userId })

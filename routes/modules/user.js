@@ -20,6 +20,7 @@ router.post('/login', (req, res, next) => {
 }, passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
+  failureFlash: true
 }))
 
 // 註冊頁面

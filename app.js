@@ -50,6 +50,10 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
 
+  if (req.session.flash.hasOwnProperty('error')) {
+    res.locals.errors = [{ message: req.flash('error') }]
+  }
+
   next()
 })
 
